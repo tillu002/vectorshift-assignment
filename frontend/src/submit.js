@@ -4,17 +4,7 @@ import { useStore } from './store';
 import { SubmitModal } from './SubmitModal';
 import { OnboardingFlow } from './components/OnboardingFlow';
 
-const getApiUrl = () => {
-    if (process.env.REACT_APP_API_URL) {
-        return process.env.REACT_APP_API_URL;
-    }
-    if (process.env.NODE_ENV === 'production') {
-        return '/api';
-    }
-    return 'http://localhost:8000';
-};
-
-const API_BASE_URL = getApiUrl();
+const API_BASE_URL = process.env.REACT_APP_API_URL || 'http://localhost:8000';
 
 export const SubmitButton = () => {
     const nodes = useStore((state) => state.nodes);
