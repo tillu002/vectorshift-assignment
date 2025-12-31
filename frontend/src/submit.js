@@ -3,8 +3,6 @@ import { useState } from 'react';
 import { useStore } from './store';
 import { SubmitModal } from './SubmitModal';
 import { OnboardingFlow } from './components/OnboardingFlow';
-import dotenv from 'dotenv';
-dotenv.config();
 
 const getApiUrl = () => {
     const envUrl = process.env.REACT_APP_API_URL;
