@@ -38,18 +38,24 @@ This guide explains how to deploy the FastAPI backend to Render.com.
    - Render will automatically build and deploy
    - Your backend will be available at: `https://your-service-name.onrender.com`
 
-### Option 2: Manual Setup
+### Option 2: Manual Setup (Recommended if render.yaml doesn't work)
 
 1. **Create a Web Service:**
    - Go to [Render Dashboard](https://dashboard.render.com/)
    - Click **New** → **Web Service**
    - Connect your Git repository
-   - **Important:** In the service settings, set **Root Directory** to `backend`
+   - **CRITICAL:** Before clicking "Create Web Service", scroll down to **Advanced Settings**
+   - Set **Root Directory** to `backend` (this is essential!)
+   - This tells Render to run all commands from the backend folder
 
 2. **Configure Build Settings:**
    - **Environment:** Python 3
+   - **Root Directory:** Set to `backend` (CRITICAL - this must be set before other settings)
    - **Build Command:** `pip install -r requirements.txt`
    - **Start Command:** `uvicorn main:app --host 0.0.0.0 --port $PORT`
+   - **Important:** Make sure to clear any auto-detected start commands (like gunicorn) and use the uvicorn command above
+   
+   **Note:** If Root Directory is set to `backend`, all commands run from that folder automatically.
 
 3. **Set Environment Variables:**
    - `ALLOWED_ORIGINS`: Your frontend URL(s), comma-separated
@@ -96,4 +102,10 @@ uvicorn main:app --host 0.0.0.0 --port 8000
 - **Build fails:** Check that `requirements.txt` includes all dependencies
 - **CORS errors:** Verify `ALLOWED_ORIGINS` includes your frontend URL
 - **Port binding:** Ensure the start command uses `$PORT` (Render sets this automatically)
+- **"gunicorn: command not found" error:** 
+  - Render is auto-detecting Django/Flask instead of FastAPI
+  - Go to your service → **Settings** → **Start Command**
+  - Clear any auto-detected commands (like `gunicorn your_application.wsgi`)
+  - Manually set: `uvicorn main:app --host 0.0.0.0 --port $PORT`
+  - Make sure **Root Directory** is set to `backend`
 

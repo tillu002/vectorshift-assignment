@@ -3,8 +3,16 @@ import { useState } from 'react';
 import { useStore } from './store';
 import { SubmitModal } from './SubmitModal';
 import { OnboardingFlow } from './components/OnboardingFlow';
+import dotenv from 'dotenv';
+dotenv.config();
 
-const API_BASE_URL = process.env.REACT_APP_API_URL || 'http://localhost:8000';
+const getApiUrl = () => {
+    const envUrl = process.env.REACT_APP_API_URL;
+    console.log('Environment variable REACT_APP_API_URL:', envUrl);
+    return envUrl || 'https://vectorshift-assignment-yrb6.onrender.com';
+};
+
+const API_BASE_URL = getApiUrl();
 
 export const SubmitButton = () => {
     const nodes = useStore((state) => state.nodes);
