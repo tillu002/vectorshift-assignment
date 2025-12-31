@@ -9,7 +9,7 @@ load_dotenv()
 
 app = FastAPI()
 
-allowed_origins_str = os.getenv("ALLOWED_ORIGINS", "http://localhost:3000")
+allowed_origins_str = os.getenv("ALLOWED_ORIGINS", "https://vectorshift-assignment-xi.vercel.app")
 allowed_origins = [origin.strip() for origin in allowed_origins_str.split(",")]
 
 render_url = os.getenv("RENDER_EXTERNAL_URL")
