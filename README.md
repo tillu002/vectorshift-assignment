@@ -2,11 +2,17 @@
 
 A node-based visual pipeline editor that demonstrates core concepts behind VectorShift's no-code AI platform. Users can drag nodes onto a canvas, connect them to form data pipelines, and validate the resulting graph structure.
 
+## 🚀 Live Deployment
+
+- **Frontend**: [https://vectorshift-assignment-xi.vercel.app/](https://vectorshift-assignment-xi.vercel.app/)
+- **Backend API**: [https://vectorshift-assignment-yrb6.onrender.com/](https://vectorshift-assignment-yrb6.onrender.com/)
+
 ## Project Overview
 
 This is a simplified implementation of a visual pipeline builder—the kind of interface that powers no-code AI platforms. Users compose pipelines by dragging nodes (Input, LLM, Text, Transform, etc.) onto a canvas and connecting them with edges. The system validates that the resulting graph is a Directed Acyclic Graph (DAG), which is essential for pipeline execution.
 
 The implementation focuses on:
+
 - **Scalable node architecture** — Adding new node types requires minimal code
 - **Consistent visual design** — All nodes share a unified look and feel
 - **Intuitive user experience** — Lightweight onboarding guides first-time users
@@ -14,7 +20,7 @@ The implementation focuses on:
 
 ## High-Level Architecture
 
-```
+```text
 ┌─────────────────┐         HTTP POST          ┌─────────────────┐
 │                 │    /pipelines/parse         │                 │
 │   React Frontend│ ──────────────────────────> │  FastAPI Backend│
@@ -36,6 +42,7 @@ The core architectural decision was introducing a reusable `BaseNode` component.
 **Why BaseNode exists:**
 
 Before the abstraction, each node type (Input, Output, LLM, Text) duplicated the same structure:
+
 - Title bar rendering
 - Handle positioning logic
 - Container styling
@@ -58,6 +65,7 @@ This created maintenance overhead and visual inconsistency. Adding a new node ty
 ```
 
 The abstraction handles:
+
 - Input/output handle rendering and positioning
 - Consistent styling (borders, shadows, spacing)
 - Title bar layout
@@ -74,6 +82,7 @@ Handles represent connection points. Input handles (left side, gray) accept inco
 ### State Management
 
 State is managed with Zustand, chosen for its simplicity and performance. The store tracks:
+
 - Nodes and edges (the graph structure)
 - Selected edge (for editing/deletion)
 - Node field updates (for form inputs)
@@ -95,6 +104,7 @@ The node parses `{{ variable }}` syntax to detect template variables. This is th
 **Dynamic Handles:**
 
 For each detected variable (e.g., `{{ user_name }}`, `{{ context }}`), the node dynamically creates an input handle. This means:
+
 - Users can connect data sources to specific template variables
 - Handles appear/disappear as variables are added/removed
 - Handle positions are distributed evenly along the left edge
@@ -108,6 +118,7 @@ The styling approach prioritizes consistency and clarity over visual flair.
 **Design System:**
 
 All nodes use Tailwind CSS with shared utility classes. This ensures:
+
 - Visual consistency across node types
 - Easy maintenance (change once, applies everywhere)
 - Predictable spacing and typography
@@ -128,6 +139,7 @@ The UI feels like a professional internal tool, not a marketing demo.
 ## User Onboarding & Discoverability
 
 First-time users need to understand three core interactions:
+
 1. Dragging nodes from the toolbar
 2. Connecting nodes by dragging between handles
 3. Submitting the pipeline for validation
@@ -135,6 +147,7 @@ First-time users need to understand three core interactions:
 **Onboarding Flow:**
 
 A lightweight, sequential onboarding system guides users through these concepts. Hints appear one at a time with "Next" and "Skip" options. The flow is:
+
 - Contextual (hints appear near relevant UI elements)
 - Non-intrusive (can be dismissed)
 - Stateful (progress saved in localStorage)
@@ -150,6 +163,7 @@ The backend is intentionally simple. It has one job: validate pipeline structure
 **Endpoint: `/pipelines/parse`**
 
 Accepts a JSON payload with `nodes` and `edges`, then returns:
+
 - `num_nodes`: Count of nodes in the graph
 - `num_edges`: Count of edges in the graph
 - `is_dag`: Boolean indicating whether the graph is acyclic
@@ -157,6 +171,7 @@ Accepts a JSON payload with `nodes` and `edges`, then returns:
 **DAG Detection:**
 
 Pipelines must be Directed Acyclic Graphs (no cycles). This is critical because:
+
 - Cycles would cause infinite loops during execution
 - DAGs have a clear execution order (topological sort)
 - Most pipeline systems require acyclic graphs
@@ -191,6 +206,7 @@ The flow is straightforward because the system has a single, clear purpose: vali
 **What could be extended:**
 
 In a production system, you'd add:
+
 - Node execution engine
 - Data persistence
 - User authentication
@@ -207,6 +223,7 @@ The assignment asked for a node abstraction, styling, Text node logic, and backe
 ## Technical Stack
 
 **Frontend:**
+
 - React 18
 - React Flow 11 (node-based UI)
 - Zustand (state management)
@@ -214,23 +231,26 @@ The assignment asked for a node abstraction, styling, Text node logic, and backe
 - pnpm (package management)
 
 **Backend:**
+
 - FastAPI (Python web framework)
 - Pydantic (data validation)
-- Mangum (ASGI adapter for Vercel)
+- python-dotenv (environment variable management)
 
 **Deployment:**
-- Vercel (configured via `vercel.json`)
-- Frontend: Static build
-- Backend: Serverless functions
+
+- **Frontend**: Vercel (static build)
+- **Backend**: Render.com (Python web service)
 
 ## Getting Started
 
 **Prerequisites:**
+
 - Node.js 18+
 - pnpm
 - Python 3.9+
 
 **Frontend:**
+
 ```bash
 cd frontend
 pnpm install
@@ -238,6 +258,7 @@ pnpm start
 ```
 
 **Backend:**
+
 ```bash
 cd backend
 pip install -r requirements.txt
@@ -245,6 +266,13 @@ uvicorn main:app --reload
 ```
 
 The frontend runs on `http://localhost:3000` and expects the backend on `http://localhost:8000`.
+
+**Environment Variables:**
+
+Create `.env` files in both `frontend/` and `backend/` directories (see `.env.example` files for templates):
+
+- **Frontend** (`frontend/.env`): Set `REACT_APP_API_URL` to your backend URL
+- **Backend** (`backend/.env`): Set `ALLOWED_ORIGINS` to your frontend URL(s)
 
 ## Assignment Requirements Mapping
 

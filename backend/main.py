@@ -52,6 +52,10 @@ def read_root():
         'service': 'Vector Shift Pipeline API',
         'status': 'running',
         'version': '1.0.0',
+        'deployment': {
+            'frontend': 'https://vectorshift-assignment-xi.vercel.app/',
+            'backend': 'https://vectorshift-assignment-yrb6.onrender.com/'
+        },
         'endpoints': {
             'parse_pipeline': '/pipelines/parse',
             'health': '/'
