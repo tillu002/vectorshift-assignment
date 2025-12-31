@@ -22,7 +22,9 @@ This guide explains how to deploy the FastAPI backend to Render.com.
    - Go to [Render Dashboard](https://dashboard.render.com/)
    - Click **New** → **Blueprint**
    - Connect your Git repository
-   - Render will automatically detect `render.yaml` and configure the service
+   - Render will automatically detect the root-level `render.yaml` and configure the service
+   - **Important:** After the service is created, go to **Settings** → **Root Directory** and set it to `backend`
+   - Alternatively, the build commands in `render.yaml` use `cd backend` to navigate to the correct directory
 
 3. **Set Environment Variables:**
    - In the Render dashboard, go to your service → **Environment**
@@ -42,7 +44,7 @@ This guide explains how to deploy the FastAPI backend to Render.com.
    - Go to [Render Dashboard](https://dashboard.render.com/)
    - Click **New** → **Web Service**
    - Connect your Git repository
-   - Select the `backend` directory as the root directory
+   - **Important:** In the service settings, set **Root Directory** to `backend`
 
 2. **Configure Build Settings:**
    - **Environment:** Python 3
