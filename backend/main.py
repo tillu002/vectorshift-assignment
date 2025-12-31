@@ -48,7 +48,15 @@ class PipelineRequest(BaseModel):
 
 @app.get('/')
 def read_root():
-    return {'Ping': 'Pong'}
+    return {
+        'service': 'Vector Shift Pipeline API',
+        'status': 'running',
+        'version': '1.0.0',
+        'endpoints': {
+            'parse_pipeline': '/pipelines/parse',
+            'health': '/'
+        }
+    }
 
 @app.get('/favicon.ico')
 def favicon():
