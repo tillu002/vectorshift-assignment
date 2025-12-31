@@ -1,5 +1,6 @@
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
+from fastapi.responses import FileResponse
 from pydantic import BaseModel
 from typing import List, Dict, Any, Optional
 import os
@@ -48,6 +49,10 @@ class PipelineRequest(BaseModel):
 @app.get('/')
 def read_root():
     return {'Ping': 'Pong'}
+
+@app.get('/favicon.ico')
+def favicon():
+    return FileResponse('favicon.ico')
 
 def is_dag(nodes: List[Node], edges: List[Edge]) -> bool:
     node_ids = {node.id for node in nodes}
